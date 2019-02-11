@@ -3,12 +3,16 @@ package com.example.myfirstapplication;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class RegistrationFragment extends Fragment {
 
@@ -35,6 +39,30 @@ public class RegistrationFragment extends Fragment {
         mButtonRegistr.setOnClickListener(clickListener);
 
         return v;
+    }
+
+    private boolean isInputValid() {
+        if (isEmailValid() && isPasswordValid()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isEmailValid() {
+        String email = mEmail.getText().toString();
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isPasswordValid() {
+        String password = mPassword.getText().toString();
+        String passwordAgain = mPasswordAgain.getText().toString();
+        return password.equals(passwordAgain) ||
+                !TextUtils.isEmpty(password) ||
+                !TextUtils.isEmpty(passwordAgain);
+    }
+
+    private void showMessage(@StringRes int string) {
+        Toast.makeText(getActivity(), string, Toast.LENGTH_LONG).show();
     }
 }
 
