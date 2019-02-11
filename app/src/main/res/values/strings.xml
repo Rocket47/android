@@ -7,4 +7,8 @@
     <string name="login_input_error">Data entry error</string>
     <string name="email"> Email</string>
     <string name="password"> Password</string>
+    <string name="input_email">Email</string>
+    <string name="input_password">Password</string>
+    <string name="enter_password_again">Enter password again</string>
+    <string name="registr">Registration</string>
 </resources>
