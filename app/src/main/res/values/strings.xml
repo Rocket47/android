@@ -11,4 +11,7 @@
     <string name="input_password">Password</string>
     <string name="enter_password_again">Enter password again</string>
     <string name="registr">Registration</string>
+    <string name="login_register_success">Login register success</string>
+    <string name="login_register_error">Login register error</string>
+    <string name="input_error">Input error</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.myfirstapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -22,6 +23,7 @@ public class AuthFragment extends Fragment {
     private Button mEnter;
     private Button mRegister;
 
+
     public static AuthFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -30,6 +32,7 @@ public class AuthFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     private View.OnClickListener mOnEnterClickListener = new View.OnClickListener() {
         @Override
@@ -49,9 +52,19 @@ public class AuthFragment extends Fragment {
     private View.OnClickListener mOnRegisterClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            // todo Button click processing
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, RegistrationFragment.newInstance())
+                    .commit();
         }
     };
+
+    private boolean isInputValid() {
+        if (isEmailValid() && isPasswordValid()) {
+            return true;
+        }
+        return false;
+    }
 
     private boolean isEmailValid() {
         return !TextUtils.isEmpty(mLogin.getText())

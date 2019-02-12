@@ -1,7 +1,6 @@
 package com.example.myfirstapplication;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -16,54 +15,77 @@ import android.widget.Toast;
 
 public class RegistrationFragment extends Fragment {
 
-    private EditText mEmail;
+    private EditText mLogin;
     private EditText mPassword;
     private EditText mPasswordAgain;
-    private Button mButtonRegistr;
+    private Button mRegistration;
+    private SharedPreferencesHelper mSharedPreferencesHelper;
 
-    View.OnClickListener clickListener = new View.OnClickListener() {
+    public static RegistrationFragment newInstance() {
+        return new RegistrationFragment();
+    }
+
+    private View.OnClickListener mOnRegistrationClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
-            //todo
+        public void onClick(View view) {
+            if (isInputValid()) {
+                boolean isAdded = mSharedPreferencesHelper.addUser(new User(
+                        mLogin.getText().toString(),
+                        mPassword.getText().toString()
+                ));
+
+                if (isAdded) {
+                    showMessage(R.string.login_register_success);
+                } else {
+                    showMessage(R.string.login_register_error);
+                }
+            } else {
+                showMessage(R.string.input_error);
+            }
         }
     };
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fr_registration, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fr_registration, container, false);
 
-        mEmail = v.findViewById(R.id.emailRegist);
-        mPassword = v.findViewById(R.id.passwordRegistr);
-        mPasswordAgain = v.findViewById(R.id.passwordRegistrAgain);
-        mButtonRegistr.setOnClickListener(clickListener);
+        mSharedPreferencesHelper = new SharedPreferencesHelper(getActivity());
 
-        return v;
+        mLogin = view.findViewById(R.id.etLogin);
+        mPassword = view.findViewById(R.id.etPassword);
+        mPasswordAgain = view.findViewById(R.id.passwordRegistrAgain);
+        mRegistration = view.findViewById(R.id.buttonRegister);
+
+        mRegistration.setOnClickListener(mOnRegistrationClickListener);
+
+        return view;
     }
 
     private boolean isInputValid() {
-        if (isEmailValid() && isPasswordValid()) {
+        String email = mLogin.getText().toString();
+        if (isEmailValid(email) && isPasswordsValid()) {
             return true;
         }
+
         return false;
     }
 
-    private boolean isEmailValid() {
-        String email = mEmail.getText().toString();
+    private boolean isEmailValid(String email) {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private boolean isPasswordValid() {
+    private boolean isPasswordsValid() {
         String password = mPassword.getText().toString();
         String passwordAgain = mPasswordAgain.getText().toString();
-        return password.equals(passwordAgain) ||
-                !TextUtils.isEmpty(password) ||
-                !TextUtils.isEmpty(passwordAgain);
+
+        return password.equals(passwordAgain)
+                && !TextUtils.isEmpty(password)
+                && !TextUtils.isEmpty(passwordAgain);
     }
 
     private void showMessage(@StringRes int string) {
         Toast.makeText(getActivity(), string, Toast.LENGTH_LONG).show();
     }
+
 }
-
-
