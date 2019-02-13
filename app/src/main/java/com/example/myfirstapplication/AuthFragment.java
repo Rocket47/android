@@ -1,12 +1,10 @@
 package com.example.myfirstapplication;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -23,9 +21,7 @@ public class AuthFragment extends Fragment {
     private Button mEnter;
     private Button mRegister;
 
-
     public static AuthFragment newInstance() {
-
         Bundle args = new Bundle();
 
         AuthFragment fragment = new AuthFragment();
@@ -33,38 +29,31 @@ public class AuthFragment extends Fragment {
         return fragment;
     }
 
-
     private View.OnClickListener mOnEnterClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
             if (isEmailValid() && isPasswordValid()) {
                 Intent startProfileIntent =
                         new Intent(getActivity(), ProfileActivity.class);
-                startProfileIntent.putExtra(ProfileActivity.EMAIL_KEY, mLogin.getText().toString());
-                startProfileIntent.putExtra(ProfileActivity.PASSWORD_KEY, mPassword.getText().toString());
+                startProfileIntent.putExtra(ProfileActivity.USER_KEY,
+                        new User(mLogin.getText().toString(), mPassword.getText().toString()));
                 startActivity(startProfileIntent);
+                getActivity().finish();
             } else {
-                showMessage(R.string.login_input_error);
+                showMessage(R.string.input_error);
             }
         }
     };
 
     private View.OnClickListener mOnRegisterClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainer, RegistrationFragment.newInstance())
                     .commit();
         }
     };
-
-    private boolean isInputValid() {
-        if (isEmailValid() && isPasswordValid()) {
-            return true;
-        }
-        return false;
-    }
 
     private boolean isEmailValid() {
         return !TextUtils.isEmpty(mLogin.getText())
@@ -81,7 +70,7 @@ public class AuthFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fr_auth, container, false);
 
         mLogin = v.findViewById(R.id.etLogin);
@@ -91,6 +80,7 @@ public class AuthFragment extends Fragment {
 
         mEnter.setOnClickListener(mOnEnterClickListener);
         mRegister.setOnClickListener(mOnRegisterClickListener);
+
         return v;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.myfirstapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -54,8 +55,8 @@ public class RegistrationFragment extends Fragment {
 
         mLogin = view.findViewById(R.id.etLogin);
         mPassword = view.findViewById(R.id.etPassword);
-        mPasswordAgain = view.findViewById(R.id.passwordRegistrAgain);
-        mRegistration = view.findViewById(R.id.buttonRegister);
+        mPasswordAgain = view.findViewById(R.id.tvPasswordAgain);
+        mRegistration = view.findViewById(R.id.btnRegistration);
 
         mRegistration.setOnClickListener(mOnRegistrationClickListener);
 
@@ -89,3 +90,4 @@ public class RegistrationFragment extends Fragment {
     }
 
 }
+

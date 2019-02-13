@@ -1,28 +1,47 @@
 package com.example.myfirstapplication;
 
-public class User {
+import java.io.Serializable;
 
-    private String login;
-    private String password;
+public class User implements Serializable {
+    private String mLogin;
+    private String mPassword;
+    private String mPhotoUri;
+    private boolean mHasSuccessLogin;
 
     public User(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        mLogin = login;
+        mPassword = password;
     }
 
     public String getLogin() {
-        return login;
+        return mLogin;
     }
 
     public void setLogin(String login) {
-        this.login = login;
+        mLogin = login;
+    }
+
+    public String getPassword() {
+        return mPassword;
+    }
+
+    public void setPassword(String password) {
+        mPassword = password;
+    }
+
+    public String getPhotoUri() {
+        return mPhotoUri;
+    }
+
+    public void setPhotoUri(String photoUri) {
+        mPhotoUri = photoUri;
+    }
+
+    public boolean hasSuccessLogin() {
+        return mHasSuccessLogin;
+    }
+
+    public void setHasSuccessLogin(boolean hasSuccessLogin) {
+        mHasSuccessLogin = hasSuccessLogin;
     }
 }

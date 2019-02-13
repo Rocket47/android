@@ -7,18 +7,16 @@ import android.view.View;
 import android.widget.TextView;
 
 public class ProfileActivity extends AppCompatActivity {
-
-    public static String EMAIL_KEY = "EMAIL_KEY";
-    public static String PASSWORD_KEY = "PASSWORD_KEY";
+    public static final String USER_KEY = "USER_KEY";
 
     private AppCompatImageView mPhoto;
     private TextView mLogin;
     private TextView mPassword;
+    private User mUser;
 
     private View.OnClickListener mOnPhotoClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
-            //todo
+        public void onClick(View view) {
         }
     };
 
@@ -27,13 +25,14 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_profile);
 
-        mPhoto = findViewById(R.id.tvPhoto);
+        mPhoto = findViewById(R.id.ivPhoto);
         mLogin = findViewById(R.id.tvEmail);
         mPassword = findViewById(R.id.tvPassword);
 
         Bundle bundle = getIntent().getExtras();
-        mLogin.setText(bundle.getString(EMAIL_KEY));
-        mPassword.setText(bundle.getString(PASSWORD_KEY));
+        mUser = (User) bundle.get(USER_KEY);
+        mLogin.setText(mUser.getLogin());
+        mPassword.setText(mUser.getPassword());
 
         mPhoto.setOnClickListener(mOnPhotoClickListener);
     }

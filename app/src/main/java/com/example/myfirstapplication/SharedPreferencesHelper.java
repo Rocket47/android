@@ -32,7 +32,7 @@ public class SharedPreferencesHelper {
     public boolean addUser(User user) {
         List<User> users = getUsers();
         for (User u : users) {
-            if (u.getLogin().equalsIgnoreCase(user.getLogin())) {
+            if (u.getLogin() != null && u.getLogin().equalsIgnoreCase(user.getLogin())) {
                 return false;
             }
         }
@@ -40,4 +40,6 @@ public class SharedPreferencesHelper {
         mSharedPreferences.edit().putString(USERS_KEY, mGson.toJson(users, USERS_TYPE)).apply();
         return true;
     }
+
+
 }
